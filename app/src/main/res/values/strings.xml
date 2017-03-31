@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">StudyManager</string>
+    <string name="title_activity_temp">TempActivity</string>
+    <string name="title_activity_flashcard">FlashcardActivity</string>
+</resources>

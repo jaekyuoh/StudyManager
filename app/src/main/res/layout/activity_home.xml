@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_home_screen"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.gatech.seclass.studymanager.HomeActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="FLASHCARD LIST"
+                android:textColor="#1c415e"
+                android:backgroundTint="#fff5fe"
+                android:id="@+id/to_flashcard_list_btn"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_list_color_24dp" />
+
+            <Button
+                android:id="@+id/to_alarm_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="#1c415e"
+                android:text="ALARM"
+                android:drawableStart="@drawable/ic_alarm_white_24dp"
+                android:textColor="#fff5fe"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/to_calendar_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:backgroundTint="#1c415e"
+                android:text="CALENDAR"
+                android:drawableStart="@drawable/ic_event_white_24dp"
+                android:textColor="#fff5fe"/>
+
+            <Button
+                android:id="@+id/to_quiz_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="50"
+                android:backgroundTint="#fff5fe"
+                android:drawableStart="@drawable/ic_spellcheck_color_24dp"
+                android:text="QUIZ"
+                android:textColor="#1c415e" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--<GridLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--tools:layout_editor_absoluteX="8dp"-->
+        <!--tools:layout_editor_absoluteY="8dp"-->
+        <!--android:columnCount="2">-->
+
+        <!--<Button android:text="1"/>-->
+        <!--<Button android:text="2"/>-->
+        <!--<Button android:text="3"/>-->
+        <!--<Button android:text="4"/>-->
+        <!---->
+    <!--</GridLayout>-->
+</RelativeLayout>
