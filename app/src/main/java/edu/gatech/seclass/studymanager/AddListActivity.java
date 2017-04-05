@@ -1,20 +1,21 @@
 package edu.gatech.seclass.studymanager;
 
-import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import edu.gatech.seclass.studymanager.db.DatabaseHelper;
+import edu.gatech.seclass.studymanager.models.Flashcard;
+import edu.gatech.seclass.studymanager.models.FlashcardList;
+import edu.gatech.seclass.studymanager.util.ShowMessage;
 
 public class AddListActivity extends AppCompatActivity {
-    DBManager myDb;
 
     @BindView(R.id.list_name_editText) EditText listNameText;
     @Override
@@ -22,39 +23,31 @@ public class AddListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_list);
         ButterKnife.bind(this);
-        myDb = new DBManager(this);
+
     }
     @OnClick(R.id.add_list_btn)
     public void onAddList(View v) {
         String listName = listNameText.getText().toString();
 
         if((listName.equals(""))){
-            showMessage("Not Enough Information","List name cannot be empty");
+            ShowMessage.show(this,"Not Enough Information","List name cannot be empty");
             listNameText.setText("");
         }
         else{
             // Check if id is not in customer list, give id to customer else compute again for random and unique ID
-            if (myDb.validListName(listName)) {
+            if (DatabaseHelper.getInstance(this).validListName(listName)) {
                 ArrayList<Flashcard> list = new ArrayList<Flashcard>();
                 String content = ""; // should convert ArrayList<Flashcard> or FlashcardList to string format
                 FlashcardList flashcardList = new FlashcardList(listName, list);// should convert ArrayList<Flashcard> or FlashcardList to string format
-                myDb.insertData(listName,content,0);
+                DatabaseHelper.getInstance(this).insertData(listName,content,0);
+
+                ShowMessage.show(this,"Success","Flashcard List has been successfully added!");
+                listNameText.setText("");
             }
             else{
-                showMessage("Duplicate List Name","You already have same list name! Please choose different list name.");
+                ShowMessage.show(this,"Duplicate List Name","You already have same list name! Please choose different list name.");
                 //listNameText.setText("");
             }
         }
     }
-
-
-
-    public void showMessage(String title, String Message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(Message);
-        builder.show();
-    }
-
 }

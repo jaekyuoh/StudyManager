@@ -1,4 +1,4 @@
-package edu.gatech.seclass.studymanager;
+package edu.gatech.seclass.studymanager.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,19 +12,37 @@ import java.util.ArrayList;
  * Created by jaekyuoh on 2017. 4. 1..
  */
 
-public class DBManager extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "StudyManager.db";
-
+    public static final int DATABASE_VERSION = 1;
     public static final String FLASHCARD_LIST_TABLE = "flashcard_list_table";
 
     public static final String COL_1 = "LISTNAME";
     public static final String COL_2 = "CONTENTS";
     public static final String COL_3 = "COUNT";
 
-    public DBManager(Context context) {
-        super(context, DATABASE_NAME, null, 6);
-        SQLiteDatabase db = this.getWritableDatabase();
+//    public DBManager(Context context) {
+//        super(context, DATABASE_NAME, null, 6);
+//        SQLiteDatabase db = this.getWritableDatabase();
+//    }
+
+
+    private static DatabaseHelper sInstance = null;
+    private DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+    public static synchronized DatabaseHelper getInstance(Context context) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (sInstance == null) {
+            sInstance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -59,6 +77,19 @@ public class DBManager extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public String getContents(String listName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "select "+COL_2+" from " + FLASHCARD_LIST_TABLE + " where LISTNAME = " + "'" +listName+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.getCount() == 0){
+            //No Single User
+            return null;
+        }
+        else{
+            return cursor.getString(0);
+        }
+    }
+
     public boolean updateFlashcardListData(String listName, String contents, int count){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -77,6 +108,7 @@ public class DBManager extends SQLiteOpenHelper {
         int res = db.delete(FLASHCARD_LIST_TABLE,"LISTNAME=?", new String[] {listName});
         return res;
     }
+
 
     public ArrayList<String> retrieveAllFlashcardNameList(){
         ArrayList<String> flashcardNameList = new ArrayList<String>();

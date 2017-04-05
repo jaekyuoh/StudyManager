@@ -1,4 +1,4 @@
-package edu.gatech.seclass.studymanager;
+package edu.gatech.seclass.studymanager.models;
 
 import java.util.ArrayList;
 
