@@ -20,7 +20,9 @@
         <activity
             android:name=".FlashcardActivity"
             android:label="@string/title_activity_flashcard"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".AddListActivity" />
+        <activity android:name=".WordsListActivity"></activity>
     </application>
 
 </manifest>

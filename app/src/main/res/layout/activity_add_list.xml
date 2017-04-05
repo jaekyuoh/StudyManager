@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.gatech.seclass.studymanager.AddListActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD YOUR LIST: " />
+
+        <EditText
+            android:id="@+id/list_name_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Write list name"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/add_list_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD LIST" />
+    </LinearLayout>
+</RelativeLayout>

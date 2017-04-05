@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.gatech.seclass.studymanager.FlashcardListActivity">
+    tools:context="edu.gatech.seclass.studymanager.WordsListActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:id="@+id/linearLayout">
+        android:id="@+id/word_linearLayout">
 
         <TextView
-            android:text="Flashcard List"
+            android:text="Word List"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/flashcard_list_recyclerview"
+            android:id="@+id/word_list_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
@@ -30,10 +29,10 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_flashcard_list_fab"
+        android:id="@+id/add_word_fab"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_alignEnd="@+id/linearLayout"
+        android:layout_alignEnd="@+id/word_linearLayout"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|end"
         android:layout_marginBottom="18dp"
