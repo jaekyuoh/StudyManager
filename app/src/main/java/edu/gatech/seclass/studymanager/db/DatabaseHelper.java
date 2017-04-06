@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
+import edu.gatech.seclass.studymanager.util.Logger;
+
 /**
  * Created by jaekyuoh on 2017. 4. 1..
  */
@@ -18,8 +20,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FLASHCARD_LIST_TABLE = "flashcard_list_table";
 
     public static final String COL_1 = "LISTNAME";
-    public static final String COL_2 = "CONTENTS";
-    public static final String COL_3 = "COUNT";
+    public static final String COL_2 = "CONTENTSA";
+    public static final String COL_3 = "CONTENTSB";
+    public static final String COL_4 = "COUNT";
 
 //    public DBManager(Context context) {
 //        super(context, DATABASE_NAME, null, 6);
@@ -47,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + FLASHCARD_LIST_TABLE + " (LISTNAME TEXT PRIMARY KEY," +
-                "CONTENTS TEXT, COUNT INTEGER)");
+                "CONTENTSA TEXT,CONTENTSB TEXT, COUNT INTEGER)");
     }
 
     @Override
@@ -56,12 +59,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData(String listName,String contents, int count) {
+    public boolean insertData(String listName,String contents_a,String contents_b, int count) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1,listName);
-        contentValues.put(COL_2,contents);
-        contentValues.put(COL_3,count);
+        contentValues.put(COL_2,contents_a);
+        contentValues.put(COL_3,contents_b);
+        contentValues.put(COL_4,count);
 
 
         long result = db.insert(FLASHCARD_LIST_TABLE,null ,contentValues);
@@ -77,25 +81,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public String getContents(String listName){
+    public String getContentsA(String listName){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "select "+COL_2+" from " + FLASHCARD_LIST_TABLE + " where LISTNAME = " + "'" +listName+"'";
+        String query = "select CONTENTSA from " + FLASHCARD_LIST_TABLE + " where LISTNAME=" + "'" +listName+"'";
         Cursor cursor = db.rawQuery(query, null);
         if(cursor.getCount() == 0){
-            //No Single User
+            //No Single Contents
+            Logger.d("StringListConverter", "NO contents_a ?!?!");
             return null;
         }
         else{
+            cursor.moveToFirst();
             return cursor.getString(0);
         }
     }
 
-    public boolean updateFlashcardListData(String listName, String contents, int count){
+    public String getContentsB(String listName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "select CONTENTSB from " + FLASHCARD_LIST_TABLE + " where LISTNAME=" + "'" +listName+"'";
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.getCount() == 0){
+            //No Single Contents
+            return null;
+        }
+        else{
+            cursor.moveToFirst();
+            return cursor.getString(0);
+        }
+    }
+
+    public boolean updateFlashcardListData(String listName, String contents_a,String contents_b, int count){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1,listName);
-        contentValues.put(COL_2,contents);
-        contentValues.put(COL_3,count);
+        contentValues.put(COL_2,contents_a);
+        contentValues.put(COL_3,contents_b);
+        contentValues.put(COL_4,count);
 
 
         //update with ID where id equals to id (given as input) such that matches contentValues supplied

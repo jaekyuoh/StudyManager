@@ -40,27 +40,36 @@ public class AddListActivity extends AppCompatActivity {
         else{
             // Check if id is not in customer list, give id to customer else compute again for random and unique ID
             if (DatabaseHelper.getInstance(this).validListName(listName)) {
-                ArrayList<Flashcard> list = new ArrayList<Flashcard>();
-                Flashcard card = new Flashcard("a","b");
-                list.add(card);
-                FlashcardList flashcardList = new FlashcardList(listName, list);// should convert ArrayList<Flashcard> or FlashcardList to string format
-                ArrayList<FlashcardList> listToBeSaved = new ArrayList<>();
-                listToBeSaved.add(flashcardList);
-                String word_a = listToBeSaved.get(0).getFlashcardList().get(0).getWord_a();
-                String word_b = listToBeSaved.get(0).getFlashcardList().get(0).getWord_b();
-                Toast.makeText(getApplicationContext(), word_a + " and " + word_b, Toast.LENGTH_LONG).show();
+//                ArrayList<Flashcard> list = new ArrayList<Flashcard>();
+//                Flashcard card = new Flashcard("a","b");
+//                list.add(card);
+//                FlashcardList flashcardList = new FlashcardList(listName, list);// should convert ArrayList<Flashcard> or FlashcardList to string format
+//                ArrayList<FlashcardList> listToBeSaved = new ArrayList<>();
+//                listToBeSaved.add(flashcardList);
+//                String word_a = listToBeSaved.get(0).getFlashcardList().get(0).getWord_a();
+//                String word_b = listToBeSaved.get(0).getFlashcardList().get(0).getWord_b();
+//                Toast.makeText(getApplicationContext(), word_a + " and " + word_b, Toast.LENGTH_LONG).show();
 //                ArrayList<FlashcardList> list = StringListConverter.StringToList(contents,clickedListName);
 
-                String content = "";
+                ArrayList<String> contentAList = new ArrayList<String>();
+//                contentAList.add("first content A");
+                ArrayList<String> contentBList = new ArrayList<String>();
+//                contentBList.add("fisrt content B");
+                String content_a ="";
+                String content_b ="";
+
+//                String content = "";
                 try {
-                    content = StringListConverter.ListToString(listToBeSaved,listName);
-                    Toast.makeText(getApplicationContext(), content + " has been added as " +
+//                    content = StringListConverter.ListToString(listToBeSaved,listName);
+                    content_a = StringListConverter.ListToString(contentAList,listName);
+                    content_b = StringListConverter.ListToString(contentBList,listName);
+                    Toast.makeText(getApplicationContext(), content_a + " and " + content_b + " has been added as " +
                             listName + " content.", Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                DatabaseHelper.getInstance(this).insertData(listName,content,0);
+                DatabaseHelper.getInstance(this).insertData(listName,content_a,content_b,0);
 
                 ShowMessage.show(this,"Success","Flashcard List has been successfully added!");
                 listNameText.setText("");

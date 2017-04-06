@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,15 +34,9 @@ public class FlashcardListActivity extends AppCompatActivity {
 
         mContext = getApplicationContext();
         recyclerView = (RecyclerView) findViewById(R.id.flashcard_list_recyclerview);
-        recyclerView.setHasFixedSize(true);
-
-
-
-
+//        recyclerView.setHasFixedSize(true);
         currentListNames = DatabaseHelper.getInstance(this).retrieveAllFlashcardNameList();
-
         layoutManager = new LinearLayoutManager(this);
-
         recyclerView.setLayoutManager(layoutManager);
         if (currentListNames!=null) {
             Adapter = new FlashcardListRecyclerAdapter(mContext, currentListNames, new FlashcardListRecyclerAdapter.OnItemClickListener() {
@@ -49,6 +44,7 @@ public class FlashcardListActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(String str) {
                     //TODO: pass str as a key
+//                    Toast.makeText(getApplicationContext(), str + " clicked ", Toast.LENGTH_LONG).show();
                     Intent i = new Intent(getApplicationContext(), WordsListActivity.class);
                     i.putExtra("listName", str);
                     startActivity(i);
@@ -61,7 +57,34 @@ public class FlashcardListActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        ButterKnife.bind(this);
 
+
+        mContext = getApplicationContext();
+        recyclerView = (RecyclerView) findViewById(R.id.flashcard_list_recyclerview);
+//        recyclerView.setHasFixedSize(true);
+        currentListNames = DatabaseHelper.getInstance(this).retrieveAllFlashcardNameList();
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        if (currentListNames!=null) {
+            Adapter = new FlashcardListRecyclerAdapter(mContext, currentListNames, new FlashcardListRecyclerAdapter.OnItemClickListener() {
+
+                @Override
+                public void onItemClick(String str) {
+                    //TODO: pass str as a key
+//                    Toast.makeText(getApplicationContext(), str + " clicked ", Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(getApplicationContext(), WordsListActivity.class);
+                    i.putExtra("listName", str);
+                    startActivity(i);
+                }
+            });
+            recyclerView.setAdapter(Adapter);
+        }
+
+    }
 
     @OnClick(R.id.add_flashcard_list_fab)
     public void onAddFlashcardList(View v) {

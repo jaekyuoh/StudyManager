@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +36,8 @@ public class AddWordActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent i = getIntent();
-        clickedListName = i.getStringExtra("address");
+        clickedListName = i.getStringExtra("listName");
+        Toast.makeText(getApplicationContext(), "From list : " + clickedListName, Toast.LENGTH_LONG).show();
 
 
     }
@@ -53,32 +55,55 @@ public class AddWordActivity extends AppCompatActivity {
         }
         else{
             //TODO: FINISH ADDING WORD
-            String contents = DatabaseHelper.getInstance(this).getContents(clickedListName);
-
-            ArrayList<FlashcardList> list = null;
+            String contentsA = DatabaseHelper.getInstance(this).getContentsA(clickedListName);
+            String contentsB = DatabaseHelper.getInstance(this).getContentsB(clickedListName);
+            ArrayList<String> list_a = new ArrayList<>();
+            ArrayList<String> list_b = new ArrayList<>();
             try {
-                list = StringListConverter.StringToList(contents,clickedListName);
+                list_a = StringListConverter.StringToList(contentsA,clickedListName);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            FlashcardList flashcardList = list.get(0);
-            flashcardList.getListName(); // should be same as clickedListName
-            ArrayList<Flashcard> flashcards = flashcardList.getFlashcardList();
-            Flashcard newFlashCard = new Flashcard(front,back);
-            flashcards.add(newFlashCard);
-
-            FlashcardList flashcardListToBeSaved = new FlashcardList(clickedListName, flashcards);// should convert ArrayList<Flashcard> or FlashcardList to string format
-            ArrayList<FlashcardList> listToBeSaved = new ArrayList<>();
-            listToBeSaved.add(flashcardListToBeSaved);
-
-            String updatedContents = null;
             try {
-                updatedContents = StringListConverter.ListToString(listToBeSaved,clickedListName);
+                list_b = StringListConverter.StringToList(contentsB,clickedListName);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            DatabaseHelper.getInstance(this).insertData(clickedListName,updatedContents,flashcards.size());
+            list_a.add(front);
+            list_b.add(back);
+
+            String content_a = "";
+            String content_b = "";
+            try {
+                content_a = StringListConverter.ListToString(list_a,clickedListName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                content_b = StringListConverter.ListToString(list_b,clickedListName);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            DatabaseHelper.getInstance(this).updateFlashcardListData(clickedListName,content_a,content_b,list_a.size());
+
+            //ONLY FOR TESTING
+            Cursor cursor = DatabaseHelper.getInstance(this).getAllData();
+            if(cursor.getCount() == 0){
+                //Show message
+//            showMessage("Error", "Nothing found");
+                return;
+            }
+            StringBuffer buffer = new StringBuffer();
+            while(cursor.moveToNext()) {
+                buffer.append("listname: " + cursor.getString(0) + "\n");
+                buffer.append("content_a: " + cursor.getString(1) + "\n");
+                buffer.append("content_b: " + cursor.getString(2) + "\n");
+                buffer.append("count: " + cursor.getInt(3) + "\n");
+            }
+            Toast.makeText(getApplicationContext(), buffer + " .", Toast.LENGTH_LONG).show();
+
         }
     }
 }
